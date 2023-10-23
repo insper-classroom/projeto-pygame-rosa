@@ -40,15 +40,16 @@ class TelaInicial(Tela):
         return self
 
     def desenhar(self):
-        self.jogo.janela.fill(PRETO)
-        texto = pygame.font.Font(None, 36).render("Bem-vindo ao Jogo!", True, BRANCO)
-        self.jogo.janela.blit(texto, (150, 200))
+        self.jogo.janela.fill((0,0,0))
         pygame.display.update()
 
 class TelaJogo(Tela):
     def __init__(self, jogo):
         super().__init__(jogo)
         self.player = Jogador(largura // 2, altura // 2)
+        self.fps_font = pygame.font.Font('font/PressStart2P.ttf', 20)
+        self.clock = pygame.time.Clock()
+
 
     def atualizar(self):
         for event in pygame.event.get():
@@ -58,15 +59,24 @@ class TelaJogo(Tela):
         self.player.atualizar() 
         return self
     
+    def desenha_fps(self):
+        self.fps = int(self.clock.get_fps())
+        self.texto = self.fps_font.render(f'FPS: {self.fps}', True, (255, 255, 255))
+        self.text_rect = self.texto.get_rect()
+        self.text_rect.bottomright = (largura - 10, altura - 10)
+        self.jogo.janela.blit(self.texto, self.text_rect)
+
     def desenhar(self):
         self.jogo.janela.fill((0, 0, 0))
         self.player.desenhar(self.jogo.janela)
+        self.desenha_fps()
         pygame.display.update()
+        self.clock.tick(60) 
 
 class Jogador:
     def __init__(self, x, y):
-        self.image = pygame.image.load('img/knight_f_idle_anim_f0.png')
-        self.image = pygame.transform.scale(self.image, (36, 36))
+        self.image = pygame.image.load('img/heroes/knight/knight_idle_anim_f0.png')
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.velocidade_x = 0
@@ -96,7 +106,7 @@ class Jogador:
         janela.blit(self.image, self.rect.topleft)
 
 if __name__ == '__main__':
-    largura = 1920
-    altura = 1080
+    largura = 640
+    altura = 480
     jogo = Jogo()
     jogo.executar()
