@@ -7,8 +7,10 @@ class Jogo:
     def __init__(self):
         pygame.font.init()  # Initialize the font module
         self.janela = pygame.display.set_mode((largura, altura))
-        pygame.display.set_caption('Nome do Jogo')
+        pygame.display.set_caption('Guaxis Cuccina')
         self.estado = TelaInicial(self)
+        self.block_size = 32
+
 
     def executar(self):
         while self.estado:
