@@ -7,6 +7,7 @@ from class_tela import *
 from inimigos import *
 from utils import *
 from tilemap import *
+from clouds import *
 
 class Jogo:
     def __init__(self):
@@ -25,8 +26,12 @@ class Jogo:
             'grass': load_images('tiles/grass'),
             'large_decor': load_images('tiles/large_decor'),
             'stone': load_images('tiles/stone'),
-            'player': load_image('xinim/xinim_parado.png')
+            'player': load_image('xinim/xinim_parado.png'),
+            'background': load_image('background.png'),
+            'clouds': load_image('clouds')
         }
+
+        self.clouds = Clouds(self.assets['clouds'], count=16)
 
         self.player = FisInimigo(self, 'player', (50, 50), (8, 15))
 
@@ -37,15 +42,19 @@ class Jogo:
     
     def run(self):
         while True:
-            self.display.fill((14, 219, 248))
+            self.display.blit(self.assets['background'], (0, 0))
 
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
+            render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
-            self.tilemap.render(self.display, offset=self.scroll)
+            self.clouds.update()
+            self.clouds.render(self.display, offset=render_scroll)
+
+            self.tilemap.render(self.display, offset=render_scroll)
 
             self.player.atualizar(self.tilemap, (self.movement[1] - self.movement[0], 0))
-            self.player.render(self.display, offset=self.scroll)
+            self.player.render(self.display, offset=render_scroll)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
