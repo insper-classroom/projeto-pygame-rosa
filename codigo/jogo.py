@@ -1,7 +1,6 @@
 import pygame, sys
 from constantes import *
 from pygame.locals import Rect
-import math
 
 class Jogo:
     def __init__(self):
@@ -49,19 +48,17 @@ class TelaJogo(Tela):
         super().__init__(jogo)
         self.player = Jogador(largura // 2, altura // 2)
         self.fps_font = pygame.font.Font('font/PressStart2P.ttf', 20)
-        self.katana = Katana()  # Create a Katana instance (after initializing the game window)
         self.clock = pygame.time.Clock()
-
 
     def atualizar(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return None
-        
-        self.katana.atualizar()  # Update katana position
-        self.katana.check_collision(self.player)
-        self.player.atualizar() 
+
+        self.player.atualizar()
+
         return self
+
     
     def desenha_fps(self):
         self.fps = int(self.clock.get_fps())
@@ -69,14 +66,15 @@ class TelaJogo(Tela):
         self.text_rect = self.texto.get_rect()
         self.text_rect.bottomright = (largura - 10, altura - 10)
         self.jogo.janela.blit(self.texto, self.text_rect)
-
+ 
     def desenhar(self):
         self.jogo.janela.fill((255, 255, 255))
         self.player.desenhar(self.jogo.janela)
-        self.katana.draw(self.jogo.janela)  # Draw the katana
         self.desenha_fps()
         pygame.display.update()
         self.clock.tick(60)
+
+
 
 class Jogador:
     def __init__(self, x, y):
@@ -86,9 +84,6 @@ class Jogador:
         self.rect.center = (x, y)
         self.velocidade_x = 0
         self.velocidade_y = 0
-        self.circular_mask = pygame.Surface((50, 50), pygame.SRCALPHA)
-        pygame.draw.circle(self.circular_mask, (255, 255, 255, 128), (25, 25), 25)
-        self.equipped_katana = False  # Added to keep track of katana equipment
 
         self.animation = [pygame.image.load(f'img/xinim/xinim_andando{i}.png') for i in range(5)]
         for i in range(5):
@@ -167,45 +162,6 @@ class Jogador:
         self.rect.y = max(0, min(altura - 50, self.rect.y))
 
     def desenhar(self, janela):
-        janela.blit(self.circular_mask, self.rect.topleft)
-        janela.blit(self.image, self.rect.topleft)
-
-class Katana:
-    def __init__(self):
-        self.image = pygame.image.load('img/armas/katana.png')
-        self.image = pygame.transform.scale(self.image, (50, 50))
-        self.rect = self.image.get_rect()
-        self.rect.center = (largura // 2, altura // 2)  # Set the initial position in the middle of the screen
-        self.attached_to_player = False
-
-    def atualizar(self):
-        if not self.attached_to_player:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            self.rect.x = mouse_x
-            self.rect.y = mouse_y
-
-    def check_collision(self, player):
-        if not self.attached_to_player and not player.equipped_katana:
-            # Calculate the center coordinates of the player's circular mask
-            player_center_x = player.rect.x + player.rect.width // 2
-            player_center_y = player.rect.y + player.rect.height // 2
-
-            # Calculate the center coordinates of the katana image
-            katana_center_x = self.rect.x + self.rect.width // 2
-            katana_center_y = self.rect.y + self.rect.height // 2
-
-            # Calculate the distance between the player's center and katana's center
-            distance = math.sqrt((player_center_x - katana_center_x) ** 2 + (player_center_y - katana_center_y) ** 2)
-
-            # Define a collision threshold (adjust as needed)
-            collision_threshold = player.rect.width // 2  # Assuming circular mask radius equals half the player's width
-
-            # If the distance is less than the collision threshold, equip the katana
-            if distance < collision_threshold:
-                self.attached_to_player = True
-                player.equipped_katana = True
-
-    def draw(self, janela):
         janela.blit(self.image, self.rect.topleft)
 
 if __name__ == '__main__':
