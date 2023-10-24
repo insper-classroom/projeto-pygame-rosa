@@ -7,7 +7,7 @@ from class_tela import *
 from inimigos import *
 from utils import *
 from tilemap import *
-from clouds import *
+from clouds import Clouds
 
 class Jogo:
     def __init__(self):
@@ -28,7 +28,7 @@ class Jogo:
             'stone': load_images('tiles/stone'),
             'player': load_image('xinim/xinim_parado.png'),
             'background': load_image('background.png'),
-            'clouds': load_image('clouds')
+            'clouds': load_images('clouds'),
         }
 
         self.clouds = Clouds(self.assets['clouds'], count=16)
