@@ -1,4 +1,4 @@
-codigo/img/*
+codigo/data/*
 # Byte-compiled / optimized / DLL files
 _pycache_/
 *.py[cod]
