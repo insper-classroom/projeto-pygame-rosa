@@ -9,6 +9,7 @@ from utils import *
 from tilemap import *
 from clouds import Clouds
 from botaosair import Botao_sair
+from mouse import Mouse
 
 class Jogo:
     def __init__(self):
@@ -52,6 +53,7 @@ class Jogo:
 
         self.retangulo_sair = Botao_sair()
 
+        self.mouse = Mouse()
 
     def run(self):
         while True:
@@ -70,12 +72,18 @@ class Jogo:
             self.player.atualizar(self.tilemap, (self.movement[1] - self.movement[0], 0))
             self.player.render(self.display, offset=render_scroll)
 
-            self.retangulo_sair.desenha_rect_sair(self.janela)
+            self.retangulo_sair.desenha_rect_sair(self.display)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    if self.mouse.clique_dentro_do_retangulo(self.retangulo_sair):
+                        pygame.quit()
+                        sys.exit()
+
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         self.movement[0] = True
@@ -86,11 +94,16 @@ class Jogo:
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         sys.exit()
+
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT:
                         self.movement[0] = False
                     if event.key == pygame.K_RIGHT:
                         self.movement[1] = False
+                
+
+                
+
 
             self.janela.blit(pygame.transform.scale(self.display, self.janela.get_size()), (0, 0))
             pygame.display.update()
