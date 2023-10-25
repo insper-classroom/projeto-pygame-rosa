@@ -8,7 +8,7 @@ from entidades import *
 from utils import *
 from tilemap import *
 from clouds import Clouds
-
+from botaosair import Botao_sair
 
 class Jogo:
     def __init__(self):
@@ -50,7 +50,9 @@ class Jogo:
 
         self.scroll = [0, 0]
 
-    
+        self.retangulo_sair = Botao_sair()
+
+
     def run(self):
         while True:
 
@@ -67,6 +69,8 @@ class Jogo:
 
             self.player.atualizar(self.tilemap, (self.movement[1] - self.movement[0], 0))
             self.player.render(self.display, offset=render_scroll)
+
+            self.retangulo_sair.desenha_rect_sair(self.janela)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
