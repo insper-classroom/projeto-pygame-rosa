@@ -4,7 +4,7 @@ from pygame.locals import Rect
 from class_jogador import *
 from class_jogo import *
 from class_tela import *
-from inimigos import *
+from entidades import *
 from utils import *
 from tilemap import *
 from clouds import Clouds
