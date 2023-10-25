@@ -12,8 +12,12 @@ from clouds import Clouds
 
 class Jogo:
     def __init__(self):
-        pygame.font.init()  
-        self.janela = pygame.display.set_mode((largura, altura))
+        pygame.init()
+        pygame.font.init()
+        
+        WIDTH, HEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
+        self.janela = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN) 
+
         pygame.display.set_caption('Guaxis')
 
         self.display = pygame.Surface((320, 240))
@@ -49,6 +53,7 @@ class Jogo:
     
     def run(self):
         while True:
+
             self.display.blit(self.assets['background'], (0, 0))
 
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
@@ -74,6 +79,9 @@ class Jogo:
                         self.movement[1] = True
                     if event.key == pygame.K_UP:
                         self.player.vel[1] = -3
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT:
                         self.movement[0] = False
