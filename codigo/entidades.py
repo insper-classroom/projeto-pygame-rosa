@@ -71,6 +71,7 @@ class Player(FisInimigo):
     def __init__(self, jogo, pos, size):
         super().__init__(jogo, 'player', pos, size)
         self.air_time = 0
+        self.jumps = 1
 
     def atualizar(self, tilemap, movement=(0, 0)):
         super().atualizar(tilemap, movement=movement)
@@ -78,6 +79,7 @@ class Player(FisInimigo):
         self.air_time += 1
         if self.collisions['down']:
             self.air_time = 0
+            self.jumps = 1
 
         if self.air_time > 4:
             self.set_action('jump')
@@ -85,3 +87,9 @@ class Player(FisInimigo):
             self.set_action('run')
         else:
             self.set_action('idle')
+
+    def jump(self):
+        if self.jumps:
+            self.vel[1] = -3
+            self.jumps -= 1
+            self.air_time = 5
