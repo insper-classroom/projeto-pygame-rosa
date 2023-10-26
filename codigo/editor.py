@@ -4,7 +4,7 @@ from pygame.locals import Rect
 from utils import *
 from tilemap import *
 
-RENDER_SCALE = 2
+RENDER_SCALE = 10
 
 
 class Editor:
