@@ -42,18 +42,22 @@ header a{
     text-decoration: none;
 }
 
+header img-interface a {
+    border-radius: 10%;
+}
+
 header nav ul{
     list-style-type: none;
 }
 
 header nav ul li{
     display: inline-block;
-    padding:0 20px
+    padding:0 0px
 }
 
 /* Estilo do topo do site */
 section.topo-do-site{
-    padding: 150px 4%;
+    padding: 200px 4%;
 }
 
 section.topo-do-site .flex{
@@ -71,6 +75,10 @@ section.topo-do-site .flex{
     color: #FFF;
     margin: 40px 0;
     line-height: 25px;
+}
+
+.img-topo-site {
+    border-radius: 10%;
 }
 
 .btn-download button{
@@ -91,7 +99,7 @@ section.topo-do-site .flex{
 
 /* Estilo do topo da história */
 section.topo-da-historia{
-    padding: 40px 4%;
+    padding: 200px 4%;
 }
 
 section.topo-da-historia .flex{
@@ -111,13 +119,17 @@ section.topo-da-historia .flex{
     line-height: 25px;
 }
 
+.img-topo-historia {
+    border-radius: 10%;
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 /* Topo da instrução */
 section.topo-da-instrucao{
-    padding: 40px 4%;
+    padding: 200px 4%;
 }
 
 section.topo-da-instrucao .flex{
@@ -153,13 +165,17 @@ section.topo-da-instrucao .flex{
     transform: scale(1.05);
 }
 
+.img-topo-instrucao{
+    border-radius: 10%;
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 /* Estilo do topo da biblioteca */
 section.topo-da-biblioteca {
-    padding: 40px 4%;
+    padding: 200px 4%;
 }
 
 section.topo-da-biblioteca .flex {
@@ -175,10 +191,22 @@ section.topo-da-biblioteca .flex {
     margin-bottom: 20px;
 }
 
+.conjunto-biblioteca {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.imagenzinha {
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
 .img-biblioteca {
     width: 20vw;
     height: 20vw;
     object-fit: cover; 
+    border-radius: 10%;
 }
 
 html {
