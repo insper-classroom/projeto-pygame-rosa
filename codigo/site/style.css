@@ -1,4 +1,5 @@
 /* Estilo Geral */
+@media screen and (max-width: 500px){}
 
 *{
     margin:0;
@@ -25,9 +26,6 @@ body{
     justify-content: space-around; 
 }
 
-main{
-    margin-bottom: 150px;
-}
 
 /* Estilo do cabeçalho */
 
@@ -139,6 +137,52 @@ section.topo-da-instrucao .flex{
     line-height: 25px;
 }
 
+.btn-download-python button{
+    padding: 10px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: rgb(4, 92, 254);
+    border: 0;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.topo-da-instrucao .btn-download-python button:hover{
+    box-shadow: 0px 0px 8px rgb(91, 141, 236);
+    transform: scale(1.05);
+}
+
 html {
     scroll-behavior: smooth;
 }
+
+
+
+section.topo-da-biblioteca .flex{
+    display: grid;
+    grid-template-rows: 4vw 16vw;
+    justify-content: center;
+}
+
+.topo-da-biblioteca h1{
+    color: #FFF;
+    font-size: 40px;
+}
+
+.img-biblioteca {
+    margin-right: 2vw;
+    margin-left: 2vw;
+    margin-top: 2vw;
+}
+
+.conjunto-biblioteca{
+    display: grid;
+    grid-template-columns: 25vw 25vw 25vw;
+    align-items: center;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
