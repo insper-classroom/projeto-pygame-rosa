@@ -157,29 +157,28 @@ html {
     scroll-behavior: smooth;
 }
 
-
-
-section.topo-da-biblioteca .flex{
-    display: grid;
-    grid-template-rows: 4vw 16vw;
-    justify-content: center;
+/* Estilo do topo da biblioteca */
+section.topo-da-biblioteca {
+    padding: 40px 4%;
 }
 
-.topo-da-biblioteca h1{
+section.topo-da-biblioteca .flex {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 2vw;
+}
+
+.topo-da-biblioteca h1 {
     color: #FFF;
     font-size: 40px;
+    margin-bottom: 20px;
 }
 
 .img-biblioteca {
-    margin-right: 2vw;
-    margin-left: 2vw;
-    margin-top: 2vw;
-}
-
-.conjunto-biblioteca{
-    display: grid;
-    grid-template-columns: 25vw 25vw 25vw;
-    align-items: center;
+    width: 20vw;
+    height: 20vw;
+    object-fit: cover; 
 }
 
 html {
