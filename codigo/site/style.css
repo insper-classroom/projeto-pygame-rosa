@@ -117,3 +117,28 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Topo da instrução */
+section.topo-da-instrucao{
+    padding: 40px 4%;
+}
+
+section.topo-da-instrucao .flex{
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.topo-da-instrucao h1{
+    color: #FFF;
+    font-size: 40px;
+}
+
+.topo-da-instrucao .txt-topo-da-instrucao p{
+    color: #FFF;
+    margin: 40px 0;
+    line-height: 25px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
