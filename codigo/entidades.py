@@ -102,8 +102,8 @@ class Player(FisInimigo):
                     self.score += 1
 
         self.air_time += 1
-        if self.air_time > 120:
-            self.jogo.dead += 1
+        if self.air_time > 100:
+            self.respawn()
 
         if self.collisions['down']:
             self.air_time = 0
