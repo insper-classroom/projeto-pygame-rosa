@@ -23,7 +23,7 @@ class Jogo:
         self.load_assets()
 
         # Inicializando componentes do jogo
-        self.player = Player(self, (50, 50), (8, 15))
+        self.player = Player(self, (50, 120), (8, 15))
         self.tilemap = Tilemap(self, tile_size=16)
         self.current_level = 0
 
@@ -108,16 +108,17 @@ class Jogo:
             projectile.y += projectile.direction.y * projectile.speed
 
     def load_next_level(self):
+        self.player.pos[0] = (10)
+        self.player.pos[1] = (130)
         self.current_level += 1
         self.load_level(self.current_level)
 
-    def get_decor_8_positions(self):
+    def espinho_posicao(self):
         positions = []
         for tile in self.tilemap.offgrid_tiles:
             if tile['type'] == 'decor' and tile['variant'] == 8:
                 positions.append((int(tile['pos'][0] // self.tilemap.tile_size), int(tile['pos'][1] // self.tilemap.tile_size)))
         return positions
-
 
 
     def check_for_next_level(self):        

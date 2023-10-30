@@ -132,7 +132,7 @@ class Player(FisInimigo):
         }
         
         # Redefinindo a posição do jogador para a posição inicial (ou qualquer outra posição de respawn desejada)
-        self.pos = [50, 50]
+        self.pos = [50, 130]
         self.vel = [0, 0]
         self.air_time = 0
 
