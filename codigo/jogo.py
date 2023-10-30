@@ -87,6 +87,8 @@ class Jogo:
                     self.player.jump()
                 if event.key == pygame.K_e:
                     self.check_for_next_level()
+                if event.key == pygame.K_b:
+                    self.check_botao()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
                     self.movement[0] = False
@@ -102,12 +104,8 @@ class Jogo:
         if not self.dead:
             self.player.atualizar(self.tilemap, (self.movement[1] - self.movement[0], 0))
 
-        # Atualização de projéteis
-        for projectile in self.projectiles:
-            projectile.x += projectile.direction.x * projectile.speed
-            projectile.y += projectile.direction.y * projectile.speed
-
     def load_next_level(self):
+        self.player.score = 0
         self.player.pos[0] = (10)
         self.player.pos[1] = (130)
         self.current_level += 1
@@ -126,7 +124,9 @@ class Jogo:
             if tile['type'] == 'decor' and tile['variant'] == 3:
                 positions_sorvete.append((int(tile['pos'][0] // self.tilemap.tile_size), int(tile['pos'][1] // self.tilemap.tile_size)))
         return positions_sorvete
-                   
+    
+    
+
     def check_for_next_level(self):        
         player_pos = (self.player.pos[0] + self.player.tamanho[0] / 2, 
                     self.player.pos[1] + self.player.tamanho[1] / 2)
@@ -136,11 +136,38 @@ class Jogo:
             if tile['type'] == 'decor' and tile['variant'] == 8:
                 distance = math.sqrt((tile['pos'][0] - player_pos[0]) ** 2 + (tile['pos'][1] - player_pos[1]) ** 2)
                 if distance < 100:
-                    if self.player.score == 3:  # Ajuste esse valor conforme necessário
+                    if self.player.score % 3 == 0:  # Ajuste esse valor conforme necessário
                         self.load_next_level()
                         return
                     else:
-                        print('nao pegou todos os sorvetes')
+                        print('não pegou todos os sorvetes')
+
+    def check_botao(self):
+        player_pos = (self.player.pos[0] + self.player.tamanho[0] / 2, 
+                    self.player.pos[1] + self.player.tamanho[1] / 2)
+        
+        for tile in self.tilemap.offgrid_tiles:
+            if tile['type'] == 'large_decor' and tile['variant'] == 0:
+                distance = math.sqrt((tile['pos'][0] - player_pos[0]) ** 2 + (tile['pos'][1] - player_pos[1]) ** 2)
+                if distance < 10:
+                    tile['variant'] = 1
+                    # Verificar tiles 'stone' variante 2 em offgrid_tiles
+                    for a in self.tilemap.offgrid_tiles:
+                        if a['type'] == 'stone' and a['variant'] == 2:
+                            pos = a['pos']
+                            tile_x = int(pos[0] // self.tilemap.tile_size)
+                            tile_y = int(pos[1] // self.tilemap.tile_size)
+                            self.tilemap.remove_parede((tile_x, tile_y))
+                    # Verificar tiles 'stone' variante 2 em tilemap
+                    tiles_to_remove = []
+                    for loc, a in self.tilemap.tilemap.items():
+                        if a['type'] == 'stone' and a['variant'] == 2:
+                            tiles_to_remove.append(tuple(map(int, loc.split(";"))))
+                    
+                    # Remover os tiles após a conclusão do loop
+                    for tile_pos in tiles_to_remove:
+                        self.tilemap.remove_parede(tile_pos)
+        return
 
     def render(self):
         """Renderiza os elementos do jogo."""

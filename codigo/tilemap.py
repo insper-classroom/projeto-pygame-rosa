@@ -61,13 +61,11 @@ class Tilemap:
         self.tile_size = map_data['tile_size']
         self.offgrid_tiles = map_data['offgrid']
 
-
     def solid_check(self, pos):
         tile_loc = str(int(pos[0] // self.tile_size)) + ';' + str(int(pos[1] // self.tile_size))
         if tile_loc in self.tilemap:
             if self.tilemap[tile_loc]['type'] in PHYSICS_TILES:
                 return self.tilemap[tile_loc]
-
 
     def physics_rects_around(self, pos):
         rects = []
@@ -75,6 +73,7 @@ class Tilemap:
             if tile['type'] in PHYSICS_TILES:
                 rects.append(pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
         return rects
+    
     def autotile(self):
         for loc in self.tilemap:
             tile = self.tilemap[loc]
@@ -95,7 +94,15 @@ class Tilemap:
         for tile in self.offgrid_tiles.copy():
             if tile['pos'] == pos:
                 self.offgrid_tiles.remove(tile)
-                
+
+    def remove_parede(self, pos):
+        tile_loc = str(pos[0]) + ';' + str(pos[1])
+        if tile_loc in self.tilemap:
+            del self.tilemap[tile_loc]
+        for tile in self.offgrid_tiles.copy():
+            if tile['pos'] == pos:
+                self.offgrid_tiles.remove(tile)
+
     def render(self, surf, offset=(0, 0)):
         for tile in self.offgrid_tiles:
             surf.blit(self.jogo.assets[tile['type']][tile['variant']], (tile['pos'][0] - offset[0], tile['pos'][1] - offset[1]))

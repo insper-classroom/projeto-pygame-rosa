@@ -93,6 +93,7 @@ class Player(FisInimigo):
             for y in range(top_left_tile[1], bottom_right_tile[1] + 1):
                 tile_loc = str(x) + ';' + str(y)
                 current_tile = self.jogo.tilemap.tilemap.get(tile_loc)
+
                 if current_tile and current_tile['type'] == 'stone' and current_tile['variant'] == 0:
                     self.respawn()
                     return
@@ -100,6 +101,7 @@ class Player(FisInimigo):
                 if current_tile and current_tile['type'] == 'decor' and current_tile['variant'] == 3:
                     self.tilemap.remove_tile(current_tile['pos'])
                     self.score += 1
+
 
         self.air_time += 1
         if self.air_time > 100:
@@ -121,7 +123,7 @@ class Player(FisInimigo):
             self.vel[1] = -3
             self.jumps -= 1
             self.air_time = 5
-        
+
     def respawn(self):
         # Obtendo a posição do tile onde o jogador estava
         tile_x = int(self.pos[0] // self.jogo.tilemap.tile_size)
@@ -138,6 +140,8 @@ class Player(FisInimigo):
         self.pos = [50, 130]
         self.vel = [0, 0]
         self.air_time = 0
+
+
 
 def normalize_vector(vector):
     magnitude = math.sqrt(vector[0]**2 + vector[1]**2)
