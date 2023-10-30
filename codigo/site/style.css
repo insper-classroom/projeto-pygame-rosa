@@ -28,7 +28,6 @@ body{
 
 
 /* Estilo do cabeçalho */
-
 header{
     position: fixed;
     top: 0;
@@ -192,6 +191,46 @@ section.topo-da-biblioteca .flex {
 }
 
 .conjunto-biblioteca {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.imagenzinha {
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+.img-biblioteca {
+    width: 20vw;
+    height: 20vw;
+    object-fit: cover; 
+    border-radius: 10%;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Sobre os Devs */
+section.topo-devs {
+    padding: 200px 4%;
+}
+
+section.topo-devs .flex {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 2vw;
+}
+
+.topo-devs h1 {
+    color: #FFF;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.conjunto-devs {
     display: flex;
     flex-direction: row;
     justify-content: center;
