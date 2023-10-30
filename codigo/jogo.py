@@ -6,8 +6,6 @@ from constantes import *
 from entidades import *
 from utils import *
 from tilemap import *
-from fundo_espaco import *
-from particle import *
 
 
 class Jogo:
@@ -25,9 +23,9 @@ class Jogo:
         self.load_assets()
 
         # Inicializando componentes do jogo
-        self.clouds = Desenhos(self.assets['clouds'], count=16)
         self.player = Player(self, (50, 50), (8, 15))
         self.tilemap = Tilemap(self, tile_size=16)
+        self.current_level = 0
 
 
         # Carregando o nível inicial
@@ -45,7 +43,6 @@ class Jogo:
             'stone': load_images('tiles/stone'),
             'player': load_image('entities/player.png'),
             'background': load_image('background.png'),
-            'clouds': load_images('clouds'),
             'player/idle': Animation(load_images('entities/player/idle'), img_dur=6),
             'player/run': Animation(load_images('entities/player/run'), img_dur=4),
             'player/jump': Animation(load_images('entities/player/jump')),
@@ -59,9 +56,10 @@ class Jogo:
 
     def load_level(self, map_id):
         """Carrega um nível com base no ID do mapa."""
-        self.tilemap.load('data/maps/' + str(map_id) + '.json')
-        self.initialize_entities_from_tilemap()
-
+        try:
+            self.tilemap.load('data/maps/' + str(map_id) + '.json')
+        except Exception as e:
+            print(f"Erro ao carregar o mapa {map_id}.json: {e}")
         # Inicializando componentes variáveis
         self.projectiles = []
         self.particles = []
@@ -87,6 +85,8 @@ class Jogo:
                     self.movement[1] = True
                 if event.key == pygame.K_UP:
                     self.player.jump()
+                if event.key == pygame.K_e:
+                    self.check_for_next_level()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
                     self.movement[0] = False
@@ -107,17 +107,36 @@ class Jogo:
             projectile.x += projectile.direction.x * projectile.speed
             projectile.y += projectile.direction.y * projectile.speed
 
+    def load_next_level(self):
+        self.current_level += 1
+        self.load_level(self.current_level)
+
+    def get_decor_8_positions(self):
+        positions = []
+        for tile in self.tilemap.offgrid_tiles:
+            if tile['type'] == 'decor' and tile['variant'] == 8:
+                positions.append((int(tile['pos'][0] // self.tilemap.tile_size), int(tile['pos'][1] // self.tilemap.tile_size)))
+        return positions
+
+
+
+    def check_for_next_level(self):        
+        player_pos = (self.player.pos[0] + self.player.tamanho[0] / 2, 
+                    self.player.pos[1] + self.player.tamanho[1] / 2)
+        
+        # Verificar se está perto de um tile offgrid decor variante 8
+        for tile in self.tilemap.offgrid_tiles:
+            if tile['type'] == 'decor' and tile['variant'] == 8:
+                distance = math.sqrt((tile['pos'][0] - player_pos[0]) ** 2 + (tile['pos'][1] - player_pos[1]) ** 2)
+                if distance < 100:  # Ajuste esse valor conforme necessário
+                    self.load_next_level()
+                    return
+
+
     def render(self):
         """Renderiza os elementos do jogo."""
         self.display.blit(self.assets['background'], (0, 0))
-        self.clouds.update()
-        self.clouds.render(self.display, offset=self.render_scroll)
         self.tilemap.render(self.display, offset=self.render_scroll)
-
-
-
-
-
         if not self.dead:
             self.player.render(self.display, offset=self.render_scroll)
 
@@ -132,6 +151,7 @@ class Jogo:
             self.janela.blit(pygame.transform.scale(self.display, self.janela.get_size()), (0, 0))
             pygame.display.update()
             self.clock.tick(60)
+
 
 
 if __name__ == "__main__":

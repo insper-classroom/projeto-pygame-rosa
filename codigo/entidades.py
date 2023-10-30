@@ -1,10 +1,7 @@
 import pygame
 from tilemap import *
 import random
-from spark import Spark
 import math
-from particle import *
-from projectile import Projectile
 
 class FisInimigo:
     def __init__(self, jogo, i_tipo, pos, tamanho):
@@ -77,6 +74,7 @@ class Player(FisInimigo):
 
     def __init__(self, jogo, pos, size):
         super().__init__(jogo, 'player', pos, size)
+
         self.air_time = 0
         self.jumps = 1
         self.x = pos[0]
@@ -85,8 +83,22 @@ class Player(FisInimigo):
 
     def atualizar(self, tilemap, movement=(0, 0)):
         super().atualizar(tilemap, movement=movement)
-        self.air_time += 1
+        
+        # Obter a posição em tiles
+        top_left_tile = [int(self.pos[0] // self.jogo.tilemap.tile_size), int(self.pos[1] // self.jogo.tilemap.tile_size)]
+        bottom_right_tile = [int((self.pos[0] + self.tamanho[0]) // self.jogo.tilemap.tile_size), int((self.pos[1] + self.tamanho[1]) // self.jogo.tilemap.tile_size)]
+        
+        # Verificar todos os tiles sob o jogador
+        for x in range(top_left_tile[0], bottom_right_tile[0] + 1):
+            for y in range(top_left_tile[1], bottom_right_tile[1] + 1):
+                tile_loc = str(x) + ';' + str(y)
+                current_tile = self.jogo.tilemap.tilemap.get(tile_loc)
+                
+                if current_tile and current_tile['type'] == 'stone' and current_tile['variant'] == 0:
+                    self.respawn()
+                    return  # Interrompe a atualização para este frame após o respawn
 
+        self.air_time += 1
         if self.air_time > 120:
             self.jogo.dead += 1
 
@@ -108,8 +120,20 @@ class Player(FisInimigo):
             self.air_time = 5
         
     def respawn(self):
-        self.pos = [50, 50]  # Redefina a posição inicial ou alguma posição de respawn desejada
-        self.vel = [0, 0]  # Resete a velocidade
+        # Obtendo a posição do tile onde o jogador estava
+        tile_x = int(self.pos[0] // self.jogo.tilemap.tile_size)
+        tile_y = int(self.pos[1] // self.jogo.tilemap.tile_size)
+        
+        # Adicionando a stone variante 1 no tilemap
+        self.jogo.tilemap.tilemap[str(tile_x) + ';' + str(tile_y)] = {
+            'type': 'stone',
+            'variant': 1,
+            'pos': [tile_x, tile_y]
+        }
+        
+        # Redefinindo a posição do jogador para a posição inicial (ou qualquer outra posição de respawn desejada)
+        self.pos = [50, 50]
+        self.vel = [0, 0]
         self.air_time = 0
 
 def normalize_vector(vector):
