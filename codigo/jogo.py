@@ -119,8 +119,14 @@ class Jogo:
             if tile['type'] == 'decor' and tile['variant'] == 8:
                 positions.append((int(tile['pos'][0] // self.tilemap.tile_size), int(tile['pos'][1] // self.tilemap.tile_size)))
         return positions
-
-
+    
+    def sorvete_posicao(self):
+        positions_sorvete = []
+        for tile in self.tilemap.offgrid_tiles:
+            if tile['type'] == 'decor' and tile['variant'] == 3:
+                positions_sorvete.append((int(tile['pos'][0] // self.tilemap.tile_size), int(tile['pos'][1] // self.tilemap.tile_size)))
+        return positions_sorvete
+                   
     def check_for_next_level(self):        
         player_pos = (self.player.pos[0] + self.player.tamanho[0] / 2, 
                     self.player.pos[1] + self.player.tamanho[1] / 2)
@@ -129,10 +135,12 @@ class Jogo:
         for tile in self.tilemap.offgrid_tiles:
             if tile['type'] == 'decor' and tile['variant'] == 8:
                 distance = math.sqrt((tile['pos'][0] - player_pos[0]) ** 2 + (tile['pos'][1] - player_pos[1]) ** 2)
-                if distance < 100:  # Ajuste esse valor conforme necessário
-                    self.load_next_level()
-                    return
-
+                if distance < 100:
+                    if self.player.score == 3:  # Ajuste esse valor conforme necessário
+                        self.load_next_level()
+                        return
+                    else:
+                        print('nao pegou todos os sorvetes')
 
     def render(self):
         """Renderiza os elementos do jogo."""

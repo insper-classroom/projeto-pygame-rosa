@@ -87,6 +87,14 @@ class Tilemap:
             neighbors = tuple(sorted(neighbors))
             if (tile['type'] in AUTOTILE_TYPES) and (neighbors in AUTOTILE_MAP):
                 tile['variant'] = AUTOTILE_MAP[neighbors]
+
+    def remove_tile(self, pos):
+        tile_loc = str(pos[0]) + ';' + str(pos[1])
+        if tile_loc in self.tilemap:
+            del self.tilemap[tile_loc]
+        for tile in self.offgrid_tiles.copy():
+            if tile['pos'] == pos:
+                self.offgrid_tiles.remove(tile)
                 
     def render(self, surf, offset=(0, 0)):
         for tile in self.offgrid_tiles:
