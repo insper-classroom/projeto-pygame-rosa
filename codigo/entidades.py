@@ -79,7 +79,6 @@ class Player(FisInimigo):
         self.x = pos[0]
         self.y = pos[1]
         self.score = 0
-        self.pulando = -0.5
                 
     def atualizar(self, tilemap, movement=(0, 0)):
         super().atualizar(tilemap, movement=movement)
@@ -104,8 +103,7 @@ class Player(FisInimigo):
 
                 if current_tile and current_tile['type'] == 'stone' and current_tile['variant'] == 3:
                     self.trampolim()
-                    self.pulando -= 0.1
-
+                    
 
         self.air_time += 1
         if self.air_time > 160:
@@ -130,9 +128,9 @@ class Player(FisInimigo):
 
     def trampolim(self):
         if self.jumps:
-            self.vel[1] = -4 + self.pulando
+            self.vel[1] = -5 
             self.jumps -= 1
-            self.air_time = 0
+            self.air_time = 5
 
     def respawn(self):
         # Obtendo a posição do tile onde o jogador estava

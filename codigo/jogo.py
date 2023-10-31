@@ -97,8 +97,8 @@ class Jogo:
 
     def update(self):
         """Atualiza o estado do jogo."""
-        self.render_scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.render_scroll[0]) 
-        self.render_scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.render_scroll[1]) / 100
+        self.render_scroll[0] += (self.player.rect().centerx - self.display.get_width() / 3 - self.render_scroll[0]) 
+        self.render_scroll[1] += (self.player.rect().centery - self.display.get_height() / 3 - self.render_scroll[1]) / 30
 
         # Atualização do jogador
         if not self.dead:
