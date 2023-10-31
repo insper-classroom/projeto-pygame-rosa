@@ -17,18 +17,23 @@ class Tela_inicio():
 
     def desenha(self):
         self.janela.blit(self.bg_st, (0, 0))
-    
+
+    def verifica_colisao_mouse(self):
+        self.retangulo = pygame.Rect(248, 208, 184, 40)
+        self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
+        return self.retangulo.collidepoint(self.mouse_x, self.mouse_y)
+
     def run(self):
         while self.menu:
             self.desenha()
             pygame.display.update()
-            x, y = pygame.mouse.get_pos()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                    self.menu = False
+                    if self.verifica_colisao_mouse():
+                        self.menu = False
 
 
 
