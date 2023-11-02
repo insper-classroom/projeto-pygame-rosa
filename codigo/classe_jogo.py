@@ -7,6 +7,7 @@ from entidades import *
 from utils import *
 from tilemap import *
 from pause import *
+from game_over import *
 
 class Jogo:
     def __init__(self):
@@ -30,7 +31,7 @@ class Jogo:
         self.game_time = 0
         self.paused = False 
         self.pause = TelaPausa(self.janela, self)
-
+        self.gameover = Gameover(self.janela, self)
 
     def load_assets(self):
         """Carrega todos os recursos necessários para o jogo."""
@@ -112,11 +113,12 @@ class Jogo:
             self.game_time = self.game_time
         else:
             self.game_time += self.clock.get_time() / 1000.0
-            print(self.game_time)
         self.render_scroll[0] += (self.player.rect().centerx - self.display.get_width() / 3 - self.render_scroll[0]) 
         self.render_scroll[1] += (self.player.rect().centery - self.display.get_height() / 3 - self.render_scroll[1]) / 30
         if not self.dead:
             self.player.atualizar(self.tilemap, (self.movement[1] - self.movement[0], 0))
+        if self.game_time > 40:
+            self.gameover.executa_gameover()
 
     def load_next_level(self):
         self.game_time = 0
