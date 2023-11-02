@@ -5,9 +5,10 @@ Os jogos de plataforma tendem a seguir uma receita de bolo: um jogo 2D, inimigos
 Esse jogo foi produzido pelos alunos Lucas Bertachini Abatepietro e João Delomo na matéria de developer life na faculdade Insper. O trabalho tinha como objetivo uma melhor compreensão das classes em python, algo extremamente útil no dia a dia de um programador e além disso, familiarizar os alunos com as linguagens Web/front-end, como HTML e CSS:
 
 A movimentação do jogo ocorre pelas 'setinhas' do teclado:
-    . Seta para cima: pulo
-    . Seta para o lado direito: anda para o lado esquerdo
-    . Seta para o lado esquerdo: anda para o lado esquerdo
+
+    - Seta para cima: pulo
+    - Seta para o lado direito: anda para o lado esquerdo
+- Seta para o lado esquerdo: anda para o lado esquerdo
 
 Interação com os objetos:
     . tecla 'e': para passar de nível ao chegar perto de uma porta
