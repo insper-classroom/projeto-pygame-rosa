@@ -15,6 +15,8 @@ if __name__ == "__main__":
         jogo.handle_events()
         jogo.update()
         jogo.render()
+        jogo.render_timer()
         jogo.janela.blit(pygame.transform.scale(jogo.display, jogo.janela.get_size()), (0, 0))
         pygame.display.update()
         jogo.clock.tick(60)
+        

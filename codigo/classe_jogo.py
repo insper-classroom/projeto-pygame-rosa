@@ -27,8 +27,10 @@ class Jogo:
         # Carregando o nível inicial
         self.load_level(0)
         self.render_scroll = [0, 0]
-
+        self.game_time = 0
+        self.paused = False 
         self.pause = TelaPausa(self.janela, self)
+
 
     def load_assets(self):
         """Carrega todos os recursos necessários para o jogo."""
@@ -49,6 +51,7 @@ class Jogo:
             'gun':load_image('gun.png'),
             'projectile':load_image('projectile.png'),
         }
+
     def load_level(self, map_id):
         """Carrega um nível com base no ID do mapa."""
         try:
@@ -78,33 +81,45 @@ class Jogo:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     self.movement[0] = True
+                    self.paused = False
                 if event.key == pygame.K_RIGHT:
                     self.movement[1] = True
+                    self.paused = False
                 if event.key == pygame.K_UP:
                     self.player.jump()
+                    self.paused = False
                 if event.key == pygame.K_e:
                     self.check_for_next_level()
+                    self.paused = False
                 if event.key == pygame.K_b:
                     self.check_botao()
+                    self.paused = False
                 if event.key == pygame.K_ESCAPE:
+                    self.paused = True
                     self.pause.executa_menu_pausa()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
                     self.movement[0] = False
+                    self.paused = False
                 if event.key == pygame.K_RIGHT:
                     self.movement[1] = False
+                    self.paused = False
+
 
     def update(self):
         """Atualiza o estado do jogo."""
+        if self.paused:
+            self.game_time = self.game_time
+        else:
+            self.game_time += self.clock.get_time() / 1000.0
+            print(self.game_time)
         self.render_scroll[0] += (self.player.rect().centerx - self.display.get_width() / 3 - self.render_scroll[0]) 
         self.render_scroll[1] += (self.player.rect().centery - self.display.get_height() / 3 - self.render_scroll[1]) / 30
-
-        # Atualização do jogador
         if not self.dead:
             self.player.atualizar(self.tilemap, (self.movement[1] - self.movement[0], 0))
 
     def load_next_level(self):
-        self.player.score = 0
+        self.game_time = 0
         self.player.pos[0] = (10)
         self.player.pos[1] = (130)
         self.current_level += 1
@@ -167,6 +182,7 @@ class Jogo:
                         self.tilemap.remove_parede(tile_pos)
         return
     
+
     def render(self):
         """Renderiza os elementos do jogo."""
         self.display.blit(self.assets['background'], (0, 0))
@@ -180,10 +196,16 @@ class Jogo:
         self.player.pos = [50, 130]
         
         self.load_level(self.current_level)
-        
         self.dead = 0
-
+        self.game_time = 0
         self.initialize_entities_from_tilemap()
+
+    def render_timer(self):
+            font = pygame.font.SysFont(None, 20)
+            seconds = self.game_time
+            timer_text = f'{int(seconds):02d}'
+            text_surface = font.render(timer_text, True, (0, 0, 0))
+            self.display.blit(text_surface, (10, 10))
 
     def run(self):
         """Loop principal do jogo."""
@@ -191,7 +213,6 @@ class Jogo:
             self.handle_events()
             self.update()
             self.render()
-            # Atualizando a tela
             self.janela.blit(pygame.transform.scale(self.display, self.janela.get_size()), (0, 0))
             pygame.display.update()
             self.clock.tick(60)

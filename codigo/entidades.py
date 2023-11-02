@@ -57,7 +57,7 @@ class FisInimigo:
         if self.collisions['down'] or self.collisions['up']:
             self.vel[1] = 0
         self.animation.update()
-        
+
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False), (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))
  
@@ -76,7 +76,8 @@ class Player(FisInimigo):
         # Obter a posição em tiles
         top_left_tile = [int(self.pos[0] // self.jogo.tilemap.tile_size), int(self.pos[1] // self.jogo.tilemap.tile_size)]
         bottom_right_tile = [int((self.pos[0] + self.tamanho[0]) // self.jogo.tilemap.tile_size), int((self.pos[1] + self.tamanho[1]) // self.jogo.tilemap.tile_size)]
-        
+
+
         # Verificar todos os tiles sob o jogador
         for x in range(top_left_tile[0], bottom_right_tile[0] + 1):
             for y in range(top_left_tile[1], bottom_right_tile[1] + 1):
@@ -135,6 +136,7 @@ class Player(FisInimigo):
         self.pos = [50, 130]
         self.vel = [0, 0]
         self.air_time = 0
+        
 def normalize_vector(vector):
     magnitude = math.sqrt(vector[0]**2 + vector[1]**2)
     if magnitude == 0:
