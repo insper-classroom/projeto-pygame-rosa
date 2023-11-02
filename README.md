@@ -14,15 +14,15 @@ A movimentação do jogo ocorre pelas 'setinhas' do teclado:
 Interação com os objetos:
 
 - 
-    . tecla 'e': para passar de nível ao chegar perto de uma porta
-    . tecla 'b': para apertar um botão ao se aproximar do mesmo
+    - tecla 'e': para passar de nível ao chegar perto de uma porta
+    - tecla 'b': para apertar um botão ao se aproximar do mesmo
 - 
 
 Regras do jogo:
 
 - 
-    . O player possui 40 segundos para completar a fase
-    . Não pode utilizar o 'restart' da tela de pause inúmeras vezes para abaixar seu tempo
-    . O player que tiver a melhor run ganha um premio
+    - O player possui 40 segundos para completar a fase
+    - Não pode utilizar o 'restart' da tela de pause inúmeras vezes para abaixar seu tempo
+    - O player que tiver a melhor run ganha um premio
 
 - 
