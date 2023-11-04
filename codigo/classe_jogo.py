@@ -8,6 +8,7 @@ from utils import *
 from tilemap import *
 from pause import *
 from game_over import *
+from final import *
 
 class Jogo:
     def __init__(self):
@@ -32,7 +33,7 @@ class Jogo:
         self.paused = False 
         self.pause = TelaPausa(self.janela, self)
         self.gameover = Gameover(self.janela, self)
-
+        self.final = final(self.janela, self)
     def load_assets(self):
         """Carrega todos os recursos necessários para o jogo."""
         self.assets = {
@@ -45,12 +46,6 @@ class Jogo:
             'player/idle': Animation(load_images('entities/player/idle'), img_dur=6),
             'player/run': Animation(load_images('entities/player/run'), img_dur=4),
             'player/jump': Animation(load_images('entities/player/jump')),
-            'player/slide': Animation(load_images('entities/player/slide')),
-            'player/wall_slide': Animation(load_images('entities/player/wall_slide')),
-            'particle/leaf': Animation(load_images('particles/leaf'), img_dur=20, loop=False),
-            'particle/shot': Animation(load_images('particles/particle'), img_dur=4, loop=False),
-            'gun':load_image('gun.png'),
-            'projectile':load_image('projectile.png'),
         }
 
     def load_level(self, map_id):
@@ -58,7 +53,7 @@ class Jogo:
         try:
             self.tilemap.load('data/maps/' + str(map_id) + '.json')
         except Exception as e:
-            print(f"Erro ao carregar o mapa {map_id}.json: {e}")
+            self.final.executa_final()
         # Inicializando componentes variáveis
         self.projectiles = []
         self.particles = []
@@ -117,7 +112,7 @@ class Jogo:
         self.render_scroll[1] += (self.player.rect().centery - self.display.get_height() / 3 - self.render_scroll[1]) / 30
         if not self.dead:
             self.player.atualizar(self.tilemap, (self.movement[1] - self.movement[0], 0))
-        if self.game_time > 40:
+        if self.game_time > 30:
             self.gameover.executa_gameover()
 
     def load_next_level(self):
@@ -208,6 +203,7 @@ class Jogo:
             timer_text = f'{int(seconds):02d}'
             text_surface = font.render(timer_text, True, (0, 0, 0))
             self.display.blit(text_surface, (10, 10))
+
 
     def run(self):
         """Loop principal do jogo."""
