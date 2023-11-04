@@ -34,6 +34,12 @@ class Jogo:
         self.pause = TelaPausa(self.janela, self)
         self.gameover = Gameover(self.janela, self)
         self.final = final(self.janela, self)
+
+        self.musica = pygame.mixer.music.load('data/sounds/musica_fundo.mp3')
+        pygame.mixer.music.play(-1)
+
+
+
     def load_assets(self):
         """Carrega todos os recursos necessários para o jogo."""
         self.assets = {
@@ -54,6 +60,8 @@ class Jogo:
             self.tilemap.load('data/maps/' + str(map_id) + '.json')
         except Exception as e:
             self.final.executa_final()
+            self.musica_final.play()
+
         # Inicializando componentes variáveis
         self.projectiles = []
         self.particles = []

@@ -15,6 +15,7 @@ class FisInimigo:
         self.flip = False
         self.set_action('idle')
 
+
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.tamanho[0], self.tamanho[1])
     
@@ -69,6 +70,9 @@ class Player(FisInimigo):
         self.x = pos[0]
         self.y = pos[1]
         self.score = 0
+        self.morte = pygame.mixer.Sound('data/sounds/morte.mp3')
+        self.item = pygame.mixer.Sound('data/sounds/item.mp3')
+
 
     def atualizar(self, tilemap, movement=(0, 0)):
         super().atualizar(tilemap, movement=movement)
@@ -85,11 +89,13 @@ class Player(FisInimigo):
                 current_tile = self.jogo.tilemap.tilemap.get(tile_loc)
                 if current_tile and current_tile['type'] == 'stone' and current_tile['variant'] == 0:
                     self.respawn()
+                    self.morte.play()
                     return
                 
                 if current_tile and current_tile['type'] == 'decor' and current_tile['variant'] == 3:
                     self.tilemap.remove_tile(current_tile['pos'])
                     self.score += 1
+                    self.item.play()
 
                 if current_tile and current_tile['type'] == 'stone' and current_tile['variant'] == 3:
                     self.trampolim()
