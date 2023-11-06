@@ -254,3 +254,39 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Commits */
+
+.commits h1{
+    color: #FFF;
+    font-size: 40px;
+    margin-bottom: 100px;
+}
+
+/* Heurística */
+section.heuristica {
+    padding: 200px 4%;
+}
+
+section.conjunto-heuristica .flex {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 2vw;
+}
+
+.heuristica h1 {
+    color: #FFF;
+    font-size: 40px;
+    margin-bottom: 100px;
+}
+
+.conjunto-heuristica {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: #FFF;
+    font-size: 40px;
+    margin-bottom: 100px;
+}
+
+
