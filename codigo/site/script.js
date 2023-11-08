@@ -1,7 +1,7 @@
 async function getCommits() {
     let user = "insper-classroom";
     let repo = "projeto-pygame-rosa";
-    const token = "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";
+    const token = "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";
         
     let url = `https://api.github.com/repos/${user}/${repo}/commits?per_page=100`;
 
