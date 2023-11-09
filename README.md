@@ -22,3 +22,5 @@ Regras do jogo:
     - O player possui 40 segundos para completar a fase
     - Não pode utilizar o 'restart' da tela de pause inúmeras vezes para abaixar seu tempo
     - O player que tiver a melhor run ganha um premio
+
+Vídeo que serviu como aprendizado ao longo do jogo: https://www.youtube.com/watch?v=2gABYM5M0ww

@@ -122,6 +122,7 @@ class Jogo:
             self.player.atualizar(self.tilemap, (self.movement[1] - self.movement[0], 0))
         if self.game_time > 30:
             self.gameover.executa_gameover()
+            self.game_time = 0
 
     def load_next_level(self):
         self.game_time = 0
